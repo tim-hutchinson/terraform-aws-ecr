@@ -40,6 +40,12 @@ variable "max_image_count" {
   default     = 500
 }
 
+variable "max_image_age" {
+  type        = number
+  description = "Maximum age in days ECR will store images. Mutally exclusive with `max_image_count`"
+  default     = null
+}
+
 variable "image_names" {
   type        = list(string)
   default     = []

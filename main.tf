@@ -48,11 +48,11 @@ locals {
 
   remove_old_image_rule = [{
     rulePriority = length(var.protected_tags) + 2
-    description  = "Rotate images when reach ${var.max_image_count} images stored",
+    description  = var.max_image_age == null ? "Rotate images when reach ${var.max_image_count} images stored" : "Rotate images when reach ${var.max_image_age} days old"
     selection = {
       tagStatus   = "any"
-      countType   = "imageCountMoreThan"
-      countNumber = var.max_image_count
+      countType   = var.max_image_age == null ? "imageCountMoreThan" : "sinceImagePushed"
+      countNumber = var.max_image_age == null ? var.max_image_count : var.max_image_age
     }
     action = {
       type = "expire"
